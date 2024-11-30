@@ -1,0 +1,100 @@
+/* General Card Style */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+.container{
+    background-color: #EED3B1;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+}
+
+
+.auth-card {
+    width: 350px;
+    margin:20vh auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #E8ECD7;
+    /* text-align: center; */
+    
+  }
+  
+  /* Header Style */
+  .auth-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .auth-header p {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+  }
+  
+  /* Form Style */
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  
+  .auth-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .auth-input:focus {
+    border-color: #47663B;
+  }
+  
+  .auth-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .auth-select:focus {
+    border-color: #47663B;
+  }
+  
+  .auth-button {
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #47663B;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .auth-button:hover {
+    background-color: #1F4529;
+  }
+  
+  /* Footer Link Style */
+  .auth-footer {
+    margin-top: 16px;
+  }
+  
+  .auth-link {
+    background: none;
+    border: none;
+    color: #1F4529;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .auth-link:hover {
+    text-decoration: underline;
+  }
+  

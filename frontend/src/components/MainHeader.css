@@ -1,0 +1,13 @@
+.app-name{
+    background-color: #47663B;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 5px;
+    height: 10vh;
+    color: #E8ECD7;
+    z-index: 999;
+}
+.app-name img{
+    width: 40px;
+}
