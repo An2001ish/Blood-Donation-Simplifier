@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Auth.css';
+import axios from "axios"
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,10 +10,25 @@ const Register = () => {
   const [contact, setContact] = useState("");
   const [role, setRole] = useState('donor');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(name,email,password,address,contact,role)
+      e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/api/v1/auth/register", {
+        name,
+        email,
+        password,
+        address,
+        phone: contact,
+        role,
+      });
+      console.log(response.data);
+      // Handle successful registration (e.g., show a success message, redirect to login)
+    } catch (error) {
+      console.error("Registration error:", error.response?.data || error.message);
+      // Handle registration error (e.g., show error message to user)
+    }
     } catch (error) {
       console.log(error);
     }

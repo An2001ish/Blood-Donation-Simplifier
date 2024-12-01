@@ -1,21 +1,51 @@
 import { useState } from 'react';
+import axios from "axios";
 import './Auth.css';
 
 
 const Login = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState('donor');
+  const [role, setRole] = useState("donor");
   // const formType= "login";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(email,password,role)
+      const response = await axios.post("http://localhost:4000/api/v1/auth/login", {
+        email,
+        password,
+        role,
+      });
+      console.log(response.data);
+      // Handle successful login (e.g., save token to localStorage, redirect to dashboard)
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        // Redirect to dashboard or home page
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error.response?.data || error.message);
+      // Handle login error (e.g., show error message to user)
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+
+  //     await axios.post("http://localhost:4000/api/v1/auth/login", {
+  //       email,
+  //       password,
+  //       role,
+  //     }
+  //   );
+
+  //     console.log(email,password,role)
+  //   } catch (error) {
+  //     console.log(error+"/nerror in loginhandlesubmit")};
+  //   }
+  
 
   const handleEmail=(e)=>{
     setEmail(e.target.value)

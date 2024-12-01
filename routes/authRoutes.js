@@ -10,7 +10,7 @@ const router = express.Router();
 //routes
 //REGISTER || POST
 router.post("/register", registerController);
-//LOGIN || POST
+//LOGIN || POSTS
 router.post("/login", loginController);
 
 router.get("/current-user", authMiddelware, currentUserController);
