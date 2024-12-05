@@ -1,0 +1,29 @@
+.homepage-content {
+    padding: 20px;
+  }
+  
+  .homepage-content h1 {
+    color: #47663B;
+    margin-bottom: 20px;
+  }
+  
+  .add-record {
+    background-color: #47663B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+  
+  .add-record:hover {
+    background-color: #3a5230;
+  }
+  
+  .add-record:active {
+    transform: scale(0.98);
+  }
+  
+  

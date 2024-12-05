@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
 import './Auth.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -9,6 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("donor");
   // const formType= "login";
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +49,12 @@ const Login = () => {
   //     console.log(error+"/nerror in loginhandlesubmit")};
   //   }
   
+  
 
+const handleRegister=()=>{
+  navigate("/register");
+
+}
   const handleEmail=(e)=>{
     setEmail(e.target.value)
   };
@@ -84,7 +92,7 @@ const Login = () => {
         </form>
       </div>
       <div className="auth-footer">
-        <button>
+        <button onClick={handleRegister}>
           Need an account? Register
         </button>
       </div>

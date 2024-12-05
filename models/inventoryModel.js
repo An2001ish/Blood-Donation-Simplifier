@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 const inventorySchema = new mongoose.Schema(
   {
-    inventoryType: {
-      type: String,
-      required: [true, "inventory type require"],
-      enum: ["in", "out"],
+    // inventoryType: {
+    //   type: String,
+    //   required: [true, "inventory type require"],
+    //   enum: ["in", "out"],
+    // },
+    date: {
+      type: Date,
+      required: [true, "Date is required"],
     },
     bloodGroup: {
       type: String,
@@ -15,24 +19,28 @@ const inventorySchema = new mongoose.Schema(
       type: Number,
       require: [true, "blood quanity is require"],
     },
-    organisation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
-      required: [true, "organisation is require"],
+    organization: {
+      type: String,
+      required: [true, "Organisation/Hospital name is required"],
     },
-    hospital: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
-      required: function () {
-        return this.inventoryType === "out";
-      },
-    },
+    // organisation: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "users",
+    //   required: [true, "organisation is require"],
+    // },
+    // hospital: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "users",
+    //   required: function () {
+    //     return this.inventoryType === "out";
+    //   },
+    // },
     donar: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      required: function () {
-        return this.inventoryType === "in";
-      },
+      // required: function () {
+      //   return this.inventoryType === "in";
+      // },
     },
   },
   { timestamps: true }

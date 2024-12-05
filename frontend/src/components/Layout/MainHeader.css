@@ -1,0 +1,33 @@
+.app-name{
+    background-color: #47663B;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    gap: 5px;
+    height: 10vh;
+    color: #E8ECD7;
+    z-index: 999;
+}
+.app-name2{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 5px;
+    height: 10vh;
+    color: #E8ECD7;
+    z-index: 999;
+}
+.app-name img{
+    width: 40px;
+}
+
+.btn {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+  }

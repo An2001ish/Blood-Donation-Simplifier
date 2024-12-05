@@ -92,21 +92,58 @@ const registerController = async (req, res) => {
 
  //GET CURRENT USER
 //GET CURRENT USER
+// const currentUserController = async (req, res) => {
+//     try {
+
+//       console.log("current user:"+req.body)
+//       const user = await userModel.findOne({ _id: req.body.userId });
+//       console.log("current user:"+user)
+//       return res.status(200).send({
+//         success: true,
+//         message: "User Fetched Successfully",
+//         user,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//       return res.status(500).send({
+//         success: false,
+//         message: "unable to get current user",
+//         error,
+//       });
+//     }
+//   };
+
 const currentUserController = async (req, res) => {
-    try {
-      const user = await userModel.findOne({ _id: req.body.userId });
-      return res.status(200).send({
-        success: true,
-        message: "User Fetched Successfully",
-        user,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({
+  try {
+    console.log("Fetching current user for userId:", req.userId);
+    const {userId} = req.userId 
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).send({
         success: false,
-        message: "unable to get current user",
-        error,
+        message: "User not found",
       });
     }
-  };
+    console.log("Found user:", user);
+    return res.status(200).send({
+      success: true,
+      message: "User Fetched Successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        // Add any other fields you want to send to the client
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Unable to get current user",
+      error,
+    });
+  }
+};
+
   module.exports = { registerController, loginController, currentUserController };
