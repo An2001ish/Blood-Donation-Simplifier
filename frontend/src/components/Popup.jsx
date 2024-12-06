@@ -36,7 +36,7 @@ const PopUp = ({ isOpen, onClose, userEmail }) => {
     <div className="popup-overlay">
       <div className="popup">
         <h2>Add Donation Record</h2>
-        <p>User Email: {userEmail}</p>
+        {/* <p>User Email: {userEmail}</p> */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="date">Date:</label>

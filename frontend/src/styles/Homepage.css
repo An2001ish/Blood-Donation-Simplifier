@@ -1,29 +1,86 @@
 .homepage-content {
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #47663B;
+}
+
+.add-record-btn {
+  background-color: #47663B;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.add-record-btn:hover {
+  background-color: #1F4529;
+}
+
+.loading,
+.error-message,
+.no-records {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.inventory-table th,
+.inventory-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: left;
+}
+
+.inventory-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #495057;
+}
+
+.inventory-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.inventory-table tr:hover {
+  background-color: #e9ecef;
+}
+
+@media (max-width: 640px) {
+  .homepage-content {
+    padding: 1rem;
   }
-  
-  .homepage-content h1 {
-    color: #47663B;
-    margin-bottom: 20px;
+
+  .page-title {
+    font-size: 1.5rem;
   }
-  
-  .add-record {
-    background-color: #47663B;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.1s;
+
+  .inventory-table th,
+  .inventory-table td {
+    padding: 8px;
   }
-  
-  .add-record:hover {
-    background-color: #3a5230;
-  }
-  
-  .add-record:active {
-    transform: scale(0.98);
-  }
-  
-  
+}
+

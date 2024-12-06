@@ -6,6 +6,12 @@ const inventorySchema = new mongoose.Schema(
     //   required: [true, "inventory type require"],
     //   enum: ["in", "out"],
     // },
+
+
+    // email: {
+    //   type: mongoose.Schema.ObjectId,
+    //   required: [true],
+    // },
     date: {
       type: Date,
       required: [true, "Date is required"],
@@ -35,9 +41,8 @@ const inventorySchema = new mongoose.Schema(
     //     return this.inventoryType === "out";
     //   },
     // },
-    donar: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+    recId: {
+      
       // required: function () {
       //   return this.inventoryType === "in";
       // },
