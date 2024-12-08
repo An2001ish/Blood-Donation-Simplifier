@@ -50,13 +50,30 @@ const PopUp = ({ isOpen, onClose, userEmail }) => {
           </div>
           <div className="form-group">
             <label htmlFor="bloodGroup">Blood Type:</label>
-            <input
+            {/* <input
               type="text"
               id="bloodGroup"
               value={bloodGroup}
               onChange={(e) => setBloodGroup(e.target.value)}
               required
-            />
+            /> */}
+            <select 
+            type = "text"
+            id="bloodGroup"
+            value={bloodGroup} 
+            onChange={(e) => setBloodGroup(e.target.value)} 
+            required
+          >
+            <option value="">Select Blood Type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
           </div>
           <div className="form-group">
             <label htmlFor="quantity">Quantity (ml):</label>
