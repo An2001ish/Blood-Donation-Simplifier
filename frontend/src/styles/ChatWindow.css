@@ -82,7 +82,7 @@
   
   .chat-input button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #1F4529;
     color: white;
     border: none;
     border-radius: 4px;
@@ -93,7 +93,7 @@
   .close-button {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #f44336;
+    background-color: #bd2217;
     color: white;
     border: none;
     border-radius: 4px;
