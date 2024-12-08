@@ -3,7 +3,7 @@ import api from '../services/API.js';
 import '../styles/Popup.css';
 import PropTypes from 'prop-types';
 
-const PopUp = ({ isOpen, onClose, userEmail }) => {
+const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
   const [date, setDate] = useState('');
   const [quantity, setQuantity] = useState('');
   const [organization, setOrganization] = useState('');
@@ -50,13 +50,7 @@ const PopUp = ({ isOpen, onClose, userEmail }) => {
           </div>
           <div className="form-group">
             <label htmlFor="bloodGroup">Blood Type:</label>
-            {/* <input
-              type="text"
-              id="bloodGroup"
-              value={bloodGroup}
-              onChange={(e) => setBloodGroup(e.target.value)}
-              required
-            /> */}
+            
             <select 
             type = "text"
             id="bloodGroup"
@@ -86,7 +80,7 @@ const PopUp = ({ isOpen, onClose, userEmail }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="organization">Organization/Hospital:</label>
+            <label htmlFor="organization">{userRole==="donor"? "Organization/Hospital:":"Donor Name:"}</label>
             <input
               type="text"
               id="organization"
@@ -109,6 +103,7 @@ PopUp.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
 };
 
 export default PopUp;

@@ -90,28 +90,6 @@ const registerController = async (req, res) => {
     }
   };
 
- //GET CURRENT USER
-//GET CURRENT USER
-// const currentUserController = async (req, res) => {
-//     try {
-
-//       console.log("current user:"+req.body)
-//       const user = await userModel.findOne({ _id: req.body.userId });
-//       console.log("current user:"+user)
-//       return res.status(200).send({
-//         success: true,
-//         message: "User Fetched Successfully",
-//         user,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//       return res.status(500).send({
-//         success: false,
-//         message: "unable to get current user",
-//         error,
-//       });
-//     }
-//   };
 
 const currentUserController = async (req, res) => {
   try {

@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import SendRequests from "./components/SendRequest"
 import ViewRequest from "./components/ViewRequest"
+import AcceptedRequests from "./components/AcceptedRequest"
 
 function App() {
   
@@ -16,6 +17,8 @@ function App() {
         <Route path = "/register" element = {<Register/>}/>
         <Route path="/create-bloodrequest" element = {<SendRequests/>} />
         <Route path="/view-requests" element = {<ViewRequest/>} />
+        <Route path="/donation-records" element = {<Homepage/>} />
+        <Route path="/accepted-requests" element = {<AcceptedRequests/>} />
 
       </Routes>
         

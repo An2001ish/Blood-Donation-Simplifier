@@ -11,6 +11,7 @@ const ViewRequest = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSearched, setIsSearched] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     fetchRequests();
@@ -20,6 +21,11 @@ const ViewRequest = () => {
     setIsLoading(true);
     setError(null);
     try {
+      const userResponse = await api.get('/auth/current-user');
+      const email = userResponse.data.user.email;
+      setUserEmail(email);
+      console.log("email in view req is: "+ email)
+
       const response = await api.get('/bloodrequest/get-bloodrequest');
       setRequests(response.data.bloodrequests);
     } catch (error) {
@@ -42,7 +48,7 @@ const ViewRequest = () => {
 
   const handleAccept = async (requestId) => {
     try {
-      await api.put(`/bloodrequest/update-status/${requestId}`, { status: 'Accepted' });
+      await api.put(`/bloodrequest/update-status/${requestId}`, { status: 'Accepted' ,acceptId: userEmail});
       fetchRequests(); // Refresh the list after accepting
       handleSearch(); // Re-filter the results
     } catch (error) {

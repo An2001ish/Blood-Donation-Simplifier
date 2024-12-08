@@ -1,0 +1,71 @@
+.accepted-requests {
+    padding: 20px;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .loading,
+  .error-message,
+  .no-requests {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .requests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .requests-table th,
+  .requests-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .requests-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .requests-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .requests-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* New button styles */
+  .chat-button {
+    background-color: #47663B;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .chat-button:hover {
+    background-color: #1F4529;
+  }
+  
+  .chat-button:active {
+    background-color: #1F4529;
+  }
+  
+  

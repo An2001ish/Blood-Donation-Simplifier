@@ -17,6 +17,9 @@ const bloodrequestSchema = new mongoose.Schema(
     recId: {
       
     },
+    acceptId:{
+      type:String
+    }
   },
   { timestamps: true }
 );

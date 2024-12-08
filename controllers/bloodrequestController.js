@@ -35,19 +35,26 @@ const getbloodrequestController = async (req, res) => {
   try {
     console.log("Get blood request: " + JSON.stringify(req.query));
 
-    if (!req.query.recId) {
-      const bloodrequests = await bloodrequestModel.find({})
-      return res.status(200).send({
-        success: true,
-        message: "record fetched for donor",
-        bloodrequests
-      });
+    let query = {};
+
+    
+
+    if (req.query.recId) {
+      query.recId = req.query.recId;
+      
     }
 
+    if (req.query.status) {
+      query.status = req.query.status;
+    }
+
+    if(req.query.acceptId){     
+        query.acceptId = req.query.acceptId;
+    }
+    
+
     const bloodrequests = await bloodrequestModel
-      .find({
-        recId: req.query.recId
-      })
+      .find(query)
       .sort({ createdAt: -1 });
 
     console.log("Found requests:", bloodrequests);
@@ -71,11 +78,12 @@ const updateRequestStatusController = async (req, res) => {
   try {
     console.log("in update"+req.params)
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, acceptId } = req.body;
+  
 
     const updatedRequest = await bloodrequestModel.findByIdAndUpdate(
       id,
-      { status },
+      { status, acceptId },
       { new: true }
     );
 

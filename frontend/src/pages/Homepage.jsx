@@ -7,6 +7,7 @@ import "../styles/Homepage.css";
 const Homepage = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [userRole, setUserRole] = useState('');
   const [inventoryData, setInventoryData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +22,9 @@ const Homepage = () => {
     try {
       const userResponse = await api.get('/auth/current-user');
       const email = userResponse.data.user.email;
+      const role = userResponse.data.user.role;
       setUserEmail(email);
+      setUserRole(role);
 
       const inventoryResponse = await api.get(`/inventory/get-inventory?email=${encodeURIComponent(email)}`);
       setInventoryData(inventoryResponse.data.inventory || []);
@@ -47,7 +50,7 @@ const Homepage = () => {
       <div className="homepage-content">
         <h1 className="page-title">Blood Donation Records</h1>
         <button className="add-record-btn" onClick={handleAddRecord}>Add Record</button>
-        <PopUp isOpen={isPopUpOpen} onClose={handleClosePopUp} userEmail={userEmail} />
+        <PopUp isOpen={isPopUpOpen} onClose={handleClosePopUp} userEmail={userEmail} userRole = {userRole} />
         {inventoryData.length === 0 ? (
           <p className="no-records">No inventory records found.</p>
         ) : (
@@ -58,7 +61,7 @@ const Homepage = () => {
                   <th>Date</th>
                   <th>Blood Group</th>
                   <th>Quantity (ml)</th>
-                  <th>Organization</th>
+                  <th>{userRole==="donor"? "Organization":"Donor"}</th>
                 </tr>
               </thead>
               <tbody>
