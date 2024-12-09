@@ -31,3 +31,12 @@
     cursor: pointer;
     border: none;
   }
+
+  .left-side{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .left-side span{
+    font-size: 16px;
+  }

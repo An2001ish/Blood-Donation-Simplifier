@@ -1,13 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import "./MainHeader.css";
+import "../../styles/MainHeader.css";
+import { useEffect, useState } from "react";
+import api from '../../services/API';
 
 const MainHeader = () => {
 
-  const navigate = useNavigate()
+  const [name, setName]= useState("")
+
+const navigate = useNavigate()
+
+useEffect(() => {
+  fetchData();
+}, []);
+
+const fetchData = async () =>{
+  const userResponse = await api.get('/auth/current-user');
+      setName(userResponse.data.user.name)
+}
 
 const handleLogout=()=>{
   localStorage.clear();
+  alert("Logged Out Successfully!");
   navigate("/login");
 
 }
@@ -18,7 +32,10 @@ const handleLogout=()=>{
         <img src={logo} alt="" />
         <h1>Blood Donation Simplifier</h1>
       </div>
+      <div className="left-side">
+      <span>Logged in as: {name}</span>
       <button className="btn" onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   );
 };

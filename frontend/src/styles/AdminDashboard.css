@@ -1,0 +1,86 @@
+.admin-dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #47663B;
+  }
+  
+  .loading,
+  .error-message,
+  .no-records {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+  }
+  
+  .error-message {
+    color: #dc3545;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .users-table th,
+  .users-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .users-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .users-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+  
+  .users-table tr:hover {
+    background-color: #e9ecef;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  @media (max-width: 640px) {
+    .admin-dashboard-content {
+      padding: 1rem;
+    }
+  
+    .page-title {
+      font-size: 1.5rem;
+    }
+  
+    .users-table th,
+    .users-table td {
+      padding: 8px;
+    }
+  }
+  
+  

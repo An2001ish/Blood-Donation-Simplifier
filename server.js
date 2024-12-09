@@ -29,6 +29,7 @@ app.use('/api/v1/test', require('./routes/testRoutes'));
 app.use('/api/v1/auth', require('./routes/authRoutes'));
 app.use('/api/v1/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/v1/bloodrequest', require('./routes/bloodRequestRoutes'));
+app.use('/api/v1/admin', require('./routes/adminRoutes'));
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -49,7 +50,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3900;
+const PORT = process.env.PORT || 4000;
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

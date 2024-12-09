@@ -2,16 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
 .container{
-    background-color: #EED3B1;
+  background-image: url("../../public/asset/banner.jpg");
+  background-size:cover;
     width: 100%;
     height: 100vh;
-    position: absolute;
+    display: flex;
 }
 
 
 .auth-card {
     width: 350px;
-    margin:20vh auto;
+    margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;

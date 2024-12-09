@@ -30,6 +30,12 @@ const Layout = ({ children }) => {
         <div className="left-content">
           <nav>
             <ul>
+              {userRole === 'admin' && (
+                <>
+                  <li><Link to="/user-records">User Records</Link></li>
+                  
+                </>
+              )}
               {userRole === 'donor' && (
                 <>
                   <li><Link to="/donation-records">Donation Records</Link></li>

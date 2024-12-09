@@ -1,16 +1,3 @@
-// const express = require("express")
-// const authMiddleware = require("../middlewares/authMiddleware")
-// const { createbloodrequestController,getbloodrequestController } = require("../controllers/bloodrequestController")
-
-// const router = express.Router()
-
-// router.post("/create-bloodrequest", authMiddleware, createbloodrequestController)
-// router.get("/get-bloodrequest", authMiddleware, getbloodrequestController)
-// // router.get("/get-bloodrequest", authMiddleware, getbloodrequestController)
-
-// module.exports = router
-
-// // routes/bloodRequestRoutes.js
 
 const express = require("express");
 const authMiddleware = require("../middlewares/authMiddleware");

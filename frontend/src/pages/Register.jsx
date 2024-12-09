@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './Auth.css';
-import axios from "axios"
+import '../styles/Auth.css';
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -11,12 +11,10 @@ const Register = () => {
   const [contact, setContact] = useState("");
   const [role, setRole] = useState('donor');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      e.preventDefault();
     try {
       const response = await axios.post("http://localhost:4000/api/v1/auth/register", {
         name,
@@ -26,53 +24,53 @@ const Register = () => {
         phone: contact,
         role,
       });
-      console.log(response.data);
-      // Handle successful registration (e.g., show a success message, redirect to login)
+      
+      if (response.data.success) {
+        alert('Registration successful!');
+        navigate("/login");
+      } else {
+        alert('Registration failed. Please try again.');
+      }
     } catch (error) {
       console.error("Registration error:", error.response?.data || error.message);
-      // Handle registration error (e.g., show error message to user)
-    }
-    } catch (error) {
-      console.log(error);
+      alert('Registration failed. Please try again.');
     }
   };
 
-  const handleLogin=()=>{
+  const handleLogin = () => {
     navigate("/login");
-  
   }
 
-  const handleName=(e)=>{
+  const handleName = (e) => {
     setName(e.target.value)
   };
-  const handleEmail=(e)=>{
+  const handleEmail = (e) => {
     setEmail(e.target.value)
   };
-  const handlePassword=(e)=>{
+  const handlePassword = (e) => {
     setPassword(e.target.value)
   };
-  const handleAddress=(e)=>{
+  const handleAddress = (e) => {
     setAddress(e.target.value)
   };
-  const handleContact=(e)=>{
+  const handleContact = (e) => {
     setContact(e.target.value)
   };
 
   return (
     <div className="container">
-    
-    <div className="auth-card">
-      <div className="auth-header">
-        <h2>Register</h2>
-        <p>Enter your details to create an account</p>
-      </div>
-      <div className="auth-content">
-        <form onSubmit={handleSubmit} className="auth-form">
-          <input type="text" placeholder="Name" value = {name} onChange={handleName} required className="auth-input" />
-          <input type="email" placeholder="Email" value = {email} onChange={handleEmail} required className="auth-input" />
-          <input type="password" placeholder="Password" value = {password} onChange={handlePassword}  required className="auth-input" />
-          <input type="text" placeholder="Address" value = {address} onChange={handleAddress} required className="auth-input" />
-          <input type="text" placeholder="Contact" value = {contact} onChange={handleContact} required className="auth-input" />
+      <div className="auth-card">
+        <div className="auth-header">
+          <h2>Register</h2>
+          <p>Enter your details to create an account</p>
+        </div>
+        <div className="auth-content">
+          <form onSubmit={handleSubmit} className="auth-form">
+            <input type="text" placeholder="Name" value={name} onChange={handleName} required className="auth-input" />
+            <input type="email" placeholder="Email" value={email} onChange={handleEmail} required className="auth-input" />
+            <input type="password" placeholder="Password" value={password} onChange={handlePassword} required className="auth-input" />
+            <input type="text" placeholder="Address" value={address} onChange={handleAddress} required className="auth-input" />
+            <input type="text" placeholder="Contact" value={contact} onChange={handleContact} required className="auth-input" />
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
@@ -84,21 +82,21 @@ const Register = () => {
               <option value="hospital">Hospital</option>
               <option value="organization">Organization</option>
             </select>
-        
-          
-          <button type="submit" className="auth-button">
-            Register
+            
+            <button type="submit" className="auth-button">
+              Register
+            </button>
+          </form>
+        </div>
+        <div className="auth-footer">
+          <button onClick={handleLogin}>
+            Already have an account? Login
           </button>
-        </form>
+        </div>
       </div>
-      <div className="auth-footer">
-        <button onClick={handleLogin}>
-          Already have an account? Login
-        </button>
-      </div>
-    </div>
     </div>
   );
 };
 
 export default Register;
+
