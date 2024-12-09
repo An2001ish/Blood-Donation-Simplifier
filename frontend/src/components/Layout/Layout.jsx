@@ -43,7 +43,7 @@ const Layout = ({ children }) => {
                   <li><Link to="/accepted-requests">Accepted Requests</Link></li>
                 </>
               )}
-              {(userRole === 'hospital' || userRole === 'organisation') && (
+              {(userRole === 'hospital' || userRole === 'organization') && (
                 <>
                   <li><Link to="/donation-records">Donation Records</Link></li>
                   <li><Link to="/create-bloodrequest">Send Requests</Link></li>
