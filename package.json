@@ -4,7 +4,9 @@
   "description": "mern project",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+   "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "npm run dev --prefix frontend",
     "dev": "nodemon server.js"
   },
   "author": "",

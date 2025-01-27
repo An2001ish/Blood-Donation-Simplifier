@@ -6,13 +6,21 @@ import "../../styles/Layout.css"
 import PropTypes from 'prop-types';
 
 const Layout = ({ children }) => {
-  const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
+        // fetch('http://localhost:4000/api/v1/auth/current-user')
+        // .then((response) => response.json())
+        // .then((data) => {
+        //   console.log("this is resp in fend")
+        //   setUserRole(data.user.role); // Update state with user data
+        // })
         const response = await api.get('/auth/current-user');
-        console.log("role is: " +JSON.stringify(response.data.user.role))
+        console.log("role is: " +
+          JSON.stringify(response.data.user.role)
+        )
         setUserRole(response.data.user.role);
       } catch (error) {
         console.error('Error fetching user role:', error);

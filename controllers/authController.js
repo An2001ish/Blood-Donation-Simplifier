@@ -93,26 +93,28 @@ const registerController = async (req, res) => {
 
 const currentUserController = async (req, res) => {
   try {
-    console.log("Fetching current user for userId:", req.userId);
-    const {userId} = req.userId 
-    const user = await userModel.findById(userId);
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "User not found",
-      });
-    }
-    console.log("Found user:", user);
+    console.log("Fetching current user for :", req.user.name);
+    const current_user = req.user;
+    // const {userId} = req.userId 
+    // const user = await userModel.findById(userId);
+    // if (!user) {
+    //   return res.status(404).send({
+    //     success: false,
+    //     message: "User not found",
+    //   });
+    // }
+    // console.log("Found user:", req.user);
     return res.status(200).send({
       success: true,
       message: "User Fetched Successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        // Add any other fields you want to send to the client
-      },
+      current_user,
+      // user: {
+      //   _id: current_user._id,
+      //   name: current_user.name,
+      //   email: current_user.email,
+      //   role: current_user.role,
+      //   // Add any other fields you want to send to the client
+      // },
     });
   } catch (error) {
     console.log(error);
