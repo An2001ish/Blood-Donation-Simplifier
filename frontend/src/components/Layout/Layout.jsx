@@ -1,33 +1,25 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import api from '../../services/API';
-import MainHeader from "./MainHeader.jsx";
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import api from "../../services/API"
+import MainHeader from "./MainHeader.jsx"
 import "../../styles/Layout.css"
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types"
 
 const Layout = ({ children }) => {
-  const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState("")
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        // fetch('http://localhost:4000/api/v1/auth/current-user')
-        // .then((response) => response.json())
-        // .then((data) => {
-        //   console.log("this is resp in fend")
-        //   setUserRole(data.user.role); // Update state with user data
-        // })
-        const response = await api.get('/auth/current-user');
-        console.log("role is: " +
-          JSON.stringify(response.data.user.role)
-        )
-        setUserRole(response.data.user.role);
+        const response = await api.get("/auth/current-user")
+        console.log("role is: " + JSON.stringify(response.data.user.role))
+        setUserRole(response.data.user.role)
       } catch (error) {
-        console.error('Error fetching user role:', error);
+        console.error("Error fetching user role:", error)
       }
-    };
-    fetchUserRole();
-  }, []);
+    }
+    fetchUserRole()
+  }, [])
 
   return (
     <div className="layout">
@@ -38,24 +30,40 @@ const Layout = ({ children }) => {
         <div className="left-content">
           <nav>
             <ul>
-              {userRole === 'admin' && (
+              {userRole === "admin" && (
                 <>
-                  <li><Link to="/user-records">User Records</Link></li>
-                  
+                  <li>
+                    <Link to="/user-records">User Records</Link>
+                  </li>
                 </>
               )}
-              {userRole === 'donor' && (
+              {userRole === "donor" && (
                 <>
-                  <li><Link to="/donation-records">Donation Records</Link></li>
-                  <li><Link to="/view-requests">View Requests</Link></li>
-                  <li><Link to="/accepted-requests">Accepted Requests</Link></li>
+                  <li>
+                    <Link to="/donation-records">Donation Records</Link>
+                  </li>
+                  <li>
+                    <Link to="/view-requests">View Requests</Link>
+                  </li>
+                  <li>
+                    <Link to="/accepted-requests">Accepted Requests</Link>
+                  </li>
                 </>
               )}
-              {(userRole === 'hospital' || userRole === 'organization') && (
+              {(userRole === "hospital" || userRole === "organization") && (
                 <>
-                  <li><Link to="/donation-records">Donation Records</Link></li>
-                  <li><Link to="/create-bloodrequest">Send Requests</Link></li>
-                  <li><Link to="/accepted-requests">Accepted Requests</Link></li>
+                  <li>
+                    <Link to="/donation-records">Donation Records</Link>
+                  </li>
+                  <li>
+                    <Link to="/analytics">Analytics</Link>
+                  </li>
+                  <li>
+                    <Link to="/create-bloodrequest">Send Requests</Link>
+                  </li>
+                  <li>
+                    <Link to="/accepted-requests">Accepted Requests</Link>
+                  </li>
                 </>
               )}
             </ul>
@@ -64,12 +72,12 @@ const Layout = ({ children }) => {
         <div className="right-content">{children}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-};
+}
 
-export default Layout;
+export default Layout
 

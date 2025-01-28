@@ -107,14 +107,15 @@ const currentUserController = async (req, res) => {
     return res.status(200).send({
       success: true,
       message: "User Fetched Successfully",
-      current_user,
-      // user: {
-      //   _id: current_user._id,
-      //   name: current_user.name,
-      //   email: current_user.email,
-      //   role: current_user.role,
-      //   // Add any other fields you want to send to the client
-      // },
+      user: {
+        _id: current_user._id,
+        name: current_user.name,
+        email: current_user.email,
+        role: current_user.role,
+        bloodGroup: current_user.bloodGroup,
+        
+        // Add any other fields you want to send to the client
+      },
     });
   } catch (error) {
     console.log(error);

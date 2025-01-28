@@ -1,0 +1,175 @@
+.analytics-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #47663b;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.chart-container h2 {
+  color: #47663b;
+  font-size: 1.8rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.radial-chart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.radial-chart-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(20% - 2rem); /* 4 items per row on larger screens */
+  max-width: 200px;
+}
+
+.circular-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.circular-chart:nth-child(8n + 1) .circle {
+  stroke: rgb(209, 61, 61);
+}
+.circular-chart:nth-child(8n + 2) .circle {
+  stroke: #66b2ff;
+}
+.circular-chart:nth-child(8n + 3) .circle {
+  stroke: #99ff99;
+}
+.circular-chart:nth-child(8n + 4) .circle {
+  stroke: #ffff99;
+}
+.circular-chart:nth-child(8n + 5) .circle {
+  stroke: #ff99ff;
+}
+.circular-chart:nth-child(8n + 6) .circle {
+  stroke: #99ffff;
+}
+.circular-chart:nth-child(8n + 7) .circle {
+  stroke: #ffb266;
+}
+.circular-chart:nth-child(8n) .circle {
+  stroke: #c2c2f0;
+}
+
+.percentage {
+  fill: #666;
+  font-family: sans-serif;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+
+.radial-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #47663b;
+  margin-top: 0.5rem;
+}
+
+.total-blood {
+  background-color: #47663b;
+  color: white;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 2rem;
+  text-align: center;
+  display: inline-block;
+  min-width: 200px;
+}
+
+.total-blood h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.total-blood p {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.loading,
+.error-message,
+.no-records {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+@media (max-width: 1024px) {
+  .radial-chart-item {
+    width: calc(33.33% - 2rem); /* 3 items per row on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .radial-chart-item {
+    width: calc(50% - 2rem); /* 2 items per row on smaller screens */
+  }
+
+  .radial-chart {
+    gap: 1rem;
+  }
+
+  .radial-label {
+    font-size: 1rem;
+  }
+
+  .total-blood h3 {
+    font-size: 1rem;
+  }
+
+  .total-blood p {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .radial-chart-item {
+    width: 100%; /* 1 item per row on very small screens */
+    max-width: none;
+  }
+}
+

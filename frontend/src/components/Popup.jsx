@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react';
-import api from '../services/API.js';
-import '../styles/Popup.css';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
+import api from "../services/API.js";
+import "../styles/Popup.css";
+import PropTypes from "prop-types";
 
-const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
-  const [date, setDate] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [organization, setOrganization] = useState('');
-  const [bloodGroup, setBloodGroup] = useState('');
+const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
+  const [date, setDate] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [maxDate, setMaxDate] = useState("");
 
   useEffect(() => {
-    console.log("Current userEmail in popup:", userEmail);
-  }, [userEmail]);
+    // Set the maxDate to today's date in the format YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
+    setMaxDate(today);
+    console.log("Current userEmail and bloodGroup in popup:", userEmail, userbloodGroup);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +25,7 @@ const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
         date,
         bloodGroup,
         quantity,
-        organization
+        organization,
       });
       console.log("Submitted data:", response.data);
       onClose();
@@ -36,7 +40,6 @@ const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
     <div className="popup-overlay">
       <div className="popup">
         <h2>Add Donation Record</h2>
-        {/* <p>User Email: {userEmail}</p> */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="date">Date:</label>
@@ -44,30 +47,42 @@ const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
               type="date"
               id="date"
               value={date}
+              max={maxDate} // Set the max attribute to today's date
               onChange={(e) => setDate(e.target.value)}
               required
             />
           </div>
           <div className="form-group">
             <label htmlFor="bloodGroup">Blood Type:</label>
-            
-            <select 
-            type = "text"
-            id="bloodGroup"
-            value={bloodGroup} 
-            onChange={(e) => setBloodGroup(e.target.value)} 
-            required
-          >
-            <option value="">Select Blood Type</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-          </select>
+            {userRole === "donor" ? (
+              // Display the user's blood group as a locked option
+              <input
+                type="text"
+                id="bloodGroup"
+                value={userbloodGroup}
+                readOnly
+                className="readonly-input"
+              />
+            ) : (
+              // Keep the dropdown for other roles
+              <select
+                type="text"
+                id="bloodGroup"
+                value={bloodGroup}
+                onChange={(e) => setBloodGroup(e.target.value)}
+                required
+              >
+                <option value="">Select Blood Type</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="quantity">Quantity (ml):</label>
@@ -80,7 +95,9 @@ const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="organization">{userRole==="donor"? "Organization/Hospital:":"Donor Name:"}</label>
+            <label htmlFor="organization">
+              {userRole === "donor" ? "Organization/Hospital:" : "Donor Name:"}
+            </label>
             <input
               type="text"
               id="organization"
@@ -91,7 +108,9 @@ const PopUp = ({ isOpen, onClose, userEmail ,userRole}) => {
           </div>
           <div className="button-group">
             <button type="submit">Submit</button>
-            <button type="button" onClick={onClose}>Cancel</button>
+            <button type="button" onClick={onClose}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -104,7 +123,7 @@ PopUp.propTypes = {
   onClose: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
   userRole: PropTypes.string.isRequired,
+  userbloodGroup: PropTypes.string.isRequired,
 };
 
 export default PopUp;
-

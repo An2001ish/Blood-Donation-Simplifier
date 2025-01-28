@@ -1,58 +1,81 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const colors = require('colors');
-const morgan = require('morgan');
-const cors = require('cors');
-const connectDB = require("./config/db");
-const http = require('http');
-const socketIo = require('socket.io');
+// const express = require("express")
+// const dotenv = require("dotenv")
+// const colors = require("colors")
+// const morgan = require("morgan")
+// const cors = require("cors")
+// const connectDB = require("./config/db")
+// const authMiddleware = require("./middlewares/authMiddleware")
 
-dotenv.config();
+// dotenv.config()
+
+// //mongodb connection
+// connectDB()
+
+// const app = express()
+
+// app.use(express.json())
+// app.use(cors({}))
+// app.use(morgan("dev"))
+
+// // Define auth routes before applying global middleware
+// app.use("/api/v1/auth", require("./routes/authRoutes"))
+
+// // Apply authMiddleware to all routes under /api/v1 except /api/v1/auth
+// app.use("/api/v1", (req, res, next) => {
+//   if (req.path.startsWith("/auth")) {
+//     return next()
+//   }
+//   authMiddleware(req, res, next)
+// })
+
+// app.use("/api/v1/test", require("./routes/testRoutes"))
+// app.use("/api/v1/inventory", require("./routes/inventoryRoutes"))
+// app.use("/api/v1/bloodrequest", require("./routes/bloodRequestRoutes"))
+// app.use("/api/v1/admin", require("./routes/adminRoutes"))
+
+// const PORT = process.env.PORT || 4000
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`)
+// })
+
+const express = require("express")
+const dotenv = require("dotenv")
+const colors = require("colors")
+const morgan = require("morgan")
+const cors = require("cors")
+const connectDB = require("./config/db")
+const authMiddleware = require("./middlewares/authMiddleware")
+
+dotenv.config()
 
 //mongodb connection
-connectDB();
+connectDB()
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
+const app = express()
+
+app.use(express.json())
+app.use(cors({}))
+app.use(morgan("dev"))
+
+// Define auth routes before applying global middleware
+app.use("/api/v1/auth", require("./routes/authRoutes"))
+
+// Apply authMiddleware to all routes under /api/v1 except /api/v1/auth
+app.use("/api/v1", (req, res, next) => {
+  if (req.path.startsWith("/auth")) {
+    return next()
   }
-});
+  authMiddleware(req, res,next);
+})
 
-app.use(express.json());
-app.use(cors({}));
-app.use(morgan('dev'));
+app.use("/api/v1/inventory", require("./routes/inventoryRoutes"))
+app.use("/api/v1/bloodrequest", require("./routes/bloodRequestRoutes"))
+app.use("/api/v1/admin", require("./routes/adminRoutes"))
 
-app.use('/api/v1/test', require('./routes/testRoutes'));
-app.use('/api/v1/auth', require('./routes/authRoutes'));
-app.use('/api/v1/inventory', require('./routes/inventoryRoutes'));
-app.use('/api/v1/bloodrequest', require('./routes/bloodRequestRoutes'));
-app.use('/api/v1/admin', require('./routes/adminRoutes'));
+const PORT = process.env.PORT || 4000
 
-// Socket.IO connection handling
-io.on('connection', (socket) => {
-  console.log('New client connected');
-
-  socket.on('join room', (room) => {
-    socket.join(room);
-    console.log(`Client joined room: ${room}`);
-  });
-
-  socket.on('chat message', (messageData) => {
-    io.to(messageData.room).emit('chat message', messageData);
-    console.log(`Message sent in room ${messageData.room}: ${messageData.content}`);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
-});
-
-const PORT = process.env.PORT || 4000;
-
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
 

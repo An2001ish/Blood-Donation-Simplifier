@@ -6,6 +6,8 @@ import SendRequests from "./components/SendRequest"
 import ViewRequest from "./components/ViewRequest"
 import AcceptedRequests from "./components/AcceptedRequest"
 import AdminDashboard from "./components/AdminDashboard"
+import Analytics from "./components/Analytics"
+
 
 function App() {
   
@@ -21,6 +23,7 @@ function App() {
         <Route path="/donation-records" element = {<Homepage/>} />
         <Route path="/accepted-requests" element = {<AcceptedRequests/>} />
         <Route path="/user-records" element = {<AdminDashboard/>} />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
         
     </>

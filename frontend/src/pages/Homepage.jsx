@@ -8,6 +8,7 @@ const Homepage = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userRole, setUserRole] = useState('');
+  const [userbloodGroup, setUserBloodGroup] = useState('');
   const [inventoryData, setInventoryData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,8 +24,11 @@ const Homepage = () => {
       const userResponse = await api.get('/auth/current-user');
       const email = userResponse.data.user.email;
       const role = userResponse.data.user.role;
+     const bloodGroup = userResponse.data.user.bloodGroup;
       setUserEmail(email);
       setUserRole(role);
+      setUserBloodGroup(bloodGroup);
+
 
       const inventoryResponse = await api.get(`/inventory/get-inventory?email=${encodeURIComponent(email)}`);
       setInventoryData(inventoryResponse.data.inventory || []);
@@ -50,7 +54,7 @@ const Homepage = () => {
       <div className="homepage-content">
         <h1 className="page-title">Blood Donation Records</h1>
         <button className="add-record-btn" onClick={handleAddRecord}>Add Record</button>
-        <PopUp isOpen={isPopUpOpen} onClose={handleClosePopUp} userEmail={userEmail} userRole = {userRole} />
+        <PopUp isOpen={isPopUpOpen} onClose={handleClosePopUp} userEmail={userEmail} userRole = {userRole} userbloodGroup = {userbloodGroup} />
         {inventoryData.length === 0 ? (
           <p className="no-records">No inventory records found.</p>
         ) : (

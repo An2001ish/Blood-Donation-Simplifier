@@ -44,6 +44,7 @@ const SendRequests = () => {
       setBloodGroup('');
       setQuantity('');
       fetchData(); // Refresh the list after sending a new request
+      
     } catch (error) {
       console.error('Error sending request:', error);
       setError('Failed to send request');
