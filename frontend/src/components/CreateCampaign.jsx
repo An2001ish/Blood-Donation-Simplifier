@@ -1,7 +1,9 @@
-import { useState } from "react"
-import Layout from "./Layout/Layout"
-import api from "../services/API"
-import "../styles/CreateCampaign.css"
+import { useState } from "react";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import Layout from "./Layout/Layout";
+import api from "../services/API";
+import "../styles/CreateCampaign.css";
+import "leaflet/dist/leaflet.css";
 
 const CreateCampaign = () => {
   const [campaignData, setCampaignData] = useState({
@@ -9,40 +11,51 @@ const CreateCampaign = () => {
     startDate: "",
     endDate: "",
     location: { lat: 27.7172, lng: 85.3240 }, // Default to Kathmandu coordinates
-  })
+  });
 
   const handleInputChange = (e) => {
-    setCampaignData({ ...campaignData, [e.target.name]: e.target.value })
-  }
+    setCampaignData({ ...campaignData, [e.target.name]: e.target.value });
+  };
 
-  const handleLocationChange = (e) => {
-    const { name, value } = e.target
-    setCampaignData(prev => ({
+  const handleLocationChange = (lat, lng) => {
+    setCampaignData((prev) => ({
       ...prev,
       location: {
-        ...prev.location,
-        [name]: parseFloat(value) || 0
-      }
-    }))
-  }
+        lat: lat,
+        lng: lng,
+      },
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await api.post("/campaigns", campaignData)
-      alert("Campaign created successfully!")
+      await api.post("/campaigns", campaignData);
+      alert("Campaign created successfully!");
       // Reset form
       setCampaignData({
         name: "",
         startDate: "",
         endDate: "",
-        location: { lat: 27.7172, lng: 85.3240 }
-      })
+        location: { lat: 27.7172, lng: 85.3240 },
+      });
     } catch (error) {
-      console.error("Error creating campaign:", error)
-      alert("Failed to create campaign")
+      console.error("Error creating campaign:", error);
+      alert("Failed to create campaign");
     }
-  }
+  };
+
+  const LocationMarker = () => {
+    useMapEvents({
+      click(e) {
+        handleLocationChange(e.latlng.lat, e.latlng.lng);
+      },
+    });
+
+    return campaignData.location.lat && campaignData.location.lng ? (
+      <Marker position={[campaignData.location.lat, campaignData.location.lng]} />
+    ) : null;
+  };
 
   return (
     <Layout>
@@ -63,55 +76,48 @@ const CreateCampaign = () => {
           </div>
           <div className="form-group">
             <label htmlFor="startDate">Start Date</label>
-            <input 
+            <input
               id="startDate"
-              type="date" 
-              name="startDate" 
-              value={campaignData.startDate} 
-              onChange={handleInputChange} 
-              required 
+              type="date"
+              name="startDate"
+              value={campaignData.startDate}
+              onChange={handleInputChange}
+              required
             />
           </div>
           <div className="form-group">
             <label htmlFor="endDate">End Date</label>
-            <input 
+            <input
               id="endDate"
-              type="date" 
-              name="endDate" 
-              value={campaignData.endDate} 
-              onChange={handleInputChange} 
-              required 
+              type="date"
+              name="endDate"
+              value={campaignData.endDate}
+              onChange={handleInputChange}
+              required
             />
           </div>
           <div className="form-group">
-            <label>Location Coordinates</label>
-            <div className="location-inputs">
-              <input
-                type="number"
-                name="lat"
-                value={campaignData.location.lat}
-                onChange={handleLocationChange}
-                placeholder="Latitude"
-                step="any"
-                required
+            <label>Location</label>
+            <MapContainer
+              center={[27.7172, 85.3240]}
+              zoom={13}
+              style={{ height: "300px", width: "100%" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              <input
-                type="number"
-                name="lng"
-                value={campaignData.location.lng}
-                onChange={handleLocationChange}
-                placeholder="Longitude"
-                step="any"
-                required
-              />
-            </div>
-            <small>Example: Latitude (27.7172), Longitude (85.3240) for Kathmandu</small>
+              <LocationMarker />
+            </MapContainer>
+            <small>Click on the map to select the location</small>
           </div>
-          <button type="submit" className="submit-button">Create Campaign</button>
+          <button type="submit" className="submit-button">
+            Create Campaign
+          </button>
         </form>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default CreateCampaign
+export default CreateCampaign;
