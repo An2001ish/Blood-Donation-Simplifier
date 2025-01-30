@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import Layout from "./Layout/Layout";
 import api from "../services/API";
 import "../styles/CreateCampaign.css";
-import "leaflet/dist/leaflet.css";
 
 const CreateCampaign = () => {
   const [campaignData, setCampaignData] = useState({
@@ -14,17 +12,21 @@ const CreateCampaign = () => {
   });
 
   const handleInputChange = (e) => {
-    setCampaignData({ ...campaignData, [e.target.name]: e.target.value });
-  };
-
-  const handleLocationChange = (lat, lng) => {
-    setCampaignData((prev) => ({
-      ...prev,
-      location: {
-        lat: lat,
-        lng: lng,
-      },
-    }));
+    const { name, value } = e.target;
+    if (name === "lat" || name === "lng") {
+      setCampaignData(prev => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          [name]: parseFloat(value) || ""
+        }
+      }));
+    } else {
+      setCampaignData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -43,18 +45,6 @@ const CreateCampaign = () => {
       console.error("Error creating campaign:", error);
       alert("Failed to create campaign");
     }
-  };
-
-  const LocationMarker = () => {
-    useMapEvents({
-      click(e) {
-        handleLocationChange(e.latlng.lat, e.latlng.lng);
-      },
-    });
-
-    return campaignData.location.lat && campaignData.location.lng ? (
-      <Marker position={[campaignData.location.lat, campaignData.location.lng]} />
-    ) : null;
   };
 
   return (
@@ -98,22 +88,36 @@ const CreateCampaign = () => {
           </div>
           <div className="form-group">
             <label>Location</label>
-            <MapContainer
-              center={[27.7172, 85.3240]}
-              zoom={13}
-              style={{ height: "300px", width: "100%" }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <LocationMarker />
-            </MapContainer>
-            <small>Click on the map to select the location</small>
+            <div className="location-inputs">
+              <div>
+                <label htmlFor="lat">Latitude (°N)</label>
+                <input
+                  id="lat"
+                  type="number"
+                  name="lat"
+                  step="any"
+                  value={campaignData.location.lat}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 27.7172"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="lng">Longitude (°E)</label>
+                <input
+                  id="lng"
+                  type="number"
+                  name="lng"
+                  step="any"
+                  value={campaignData.location.lng}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 85.3240"
+                  required
+                />
+              </div>
+            </div>
           </div>
-          <button type="submit" className="submit-button">
-            Create Campaign
-          </button>
+          <button type="submit" className="submit-btn">Create Campaign</button>
         </form>
       </div>
     </Layout>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import Layout from "./Layout/Layout"
 import api from "../services/API"
 
@@ -22,20 +21,11 @@ const ViewCampaigns = () => {
     <Layout>
       <h2>Blood Donation Campaigns</h2>
       {campaigns.map((campaign) => (
-        <div key={campaign._id}>
-          <h3>{campaign.name}</h3>
+        <div key={campaign._id} className="border p-4 mb-4 rounded shadow">
+          <h3 className="text-lg font-semibold">{campaign.name}</h3>
           <p>Start Date: {new Date(campaign.startDate).toLocaleDateString()}</p>
           <p>End Date: {new Date(campaign.endDate).toLocaleDateString()}</p>
-          <MapContainer
-            center={[campaign.location.lat, campaign.location.lng]}
-            zoom={13}
-            style={{ height: "200px", width: "100%" }}
-          >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[campaign.location.lat, campaign.location.lng]}>
-              <Popup>{campaign.name}</Popup>
-            </Marker>
-          </MapContainer>
+          <p>Location: {campaign.location.lat}° N, {campaign.location.lng}° E</p>
         </div>
       ))}
     </Layout>
@@ -43,4 +33,3 @@ const ViewCampaigns = () => {
 }
 
 export default ViewCampaigns
-

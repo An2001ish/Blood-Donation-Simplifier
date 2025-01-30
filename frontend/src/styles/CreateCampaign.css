@@ -29,12 +29,28 @@
 }
 
 .form-group input[type="text"],
-.form-group input[type="date"] {
+.form-group input[type="date"],
+.form-group input[type="number"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+}
+
+.location-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.location-inputs > div {
+  margin-bottom: 0;
+}
+
+.location-inputs label {
+  font-size: 14px;
+  color: #666;
 }
 
 .map-wrapper {
@@ -76,5 +92,10 @@
   
   .campaign-form {
     padding: 15px;
+  }
+  
+  .location-inputs {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
