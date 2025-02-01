@@ -48,6 +48,14 @@ const registerController = async (req, res) => {
         });
       }
 
+      // Check if user is suspended
+      if (user.status === "suspended") {
+        return res.status(403).send({
+          success: false,
+          message: "Your account has been suspended. Please contact the administrator.",
+        });
+      }
+
       //check role
     if (user.role !== req.body.role) {
       console.log("bad info")

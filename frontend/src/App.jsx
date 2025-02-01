@@ -11,7 +11,6 @@ import AcceptedRequests from "./components/AcceptedRequest";
 
 import Analytics from "./components/Analytics";
 import Spinner from "./components/Spinner";
-import "leaflet/dist/leaflet.css";
 import DonationStatistics from "./components/AdminDashboard/DonationStatistics";
 import UserManagement from "./components/AdminDashboard/UserManagement";
 

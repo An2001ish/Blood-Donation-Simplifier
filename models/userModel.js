@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Phone numbe is required!"],
     },
+    status: {
+      type: String,
+      enum: ["active", "suspended"],
+      default: "active",
+    },
   },
   { timestamps: true }
 );
