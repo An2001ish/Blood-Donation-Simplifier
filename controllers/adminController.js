@@ -1,5 +1,4 @@
 const userModel = require("../models/userModel");
-const ActivityLog = require("../models/activityLogModel");
 const inventoryModel = require("../models/inventoryModel");
 
 // User Management Controllers
@@ -117,48 +116,6 @@ const updateUserController = async (req, res) => {
   }
 };
 
-// Activity Logs Controllers
-const getActivityLogsController = async (req, res) => {
-  try {
-    const { startDate, endDate, userId, action } = req.query;
-    let query = {};
-
-    // Add date range filter if provided
-    if (startDate && endDate) {
-      query.timestamp = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
-      };
-    }
-
-    // Add user filter if provided
-    if (userId) {
-      query.userId = userId;
-    }
-
-    // Add action filter if provided
-    if (action) {
-      query.action = action;
-    }
-
-    const logs = await ActivityLog.find(query)
-      .sort({ timestamp: -1 })
-      .limit(100);
-
-    return res.status(200).send({
-      success: true,
-      message: "Activity logs fetched successfully",
-      logs,
-    });
-  } catch (error) {
-    console.error("Error in getActivityLogsController:", error);
-    return res.status(500).send({
-      success: false,
-      message: "Error in Get Activity Logs API",
-      error: error.message,
-    });
-  }
-};
 
 // Donation Statistics Controllers
 const getDonationStatisticsController = async (req, res) => {
@@ -239,6 +196,5 @@ module.exports = {
   removeUserController,
   updateUserStatusController,
   updateUserController,
-  getActivityLogsController,
   getDonationStatisticsController
 };
