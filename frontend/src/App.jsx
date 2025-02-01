@@ -10,8 +10,6 @@ import ViewRequest from "./components/ViewRequest";
 import AcceptedRequests from "./components/AcceptedRequest";
 
 import Analytics from "./components/Analytics";
-import CreateCampaign from "./components/CreateCampaign";
-import ViewCampaigns from "./components/ViewCampaign";
 import Spinner from "./components/Spinner";
 import "leaflet/dist/leaflet.css";
 import DonationStatistics from "./components/AdminDashboard/DonationStatistics";
@@ -78,16 +76,6 @@ function App() {
         <Route path="/analytics" element={
           <PrivateRoute>
             <Analytics />
-          </PrivateRoute>
-        } />
-        <Route path="/create-campaign" element={
-          <PrivateRoute>
-            <CreateCampaign />
-          </PrivateRoute>
-        } />
-        <Route path="/view-campaigns" element={
-          <PrivateRoute>
-            <ViewCampaigns />
           </PrivateRoute>
         } />
         

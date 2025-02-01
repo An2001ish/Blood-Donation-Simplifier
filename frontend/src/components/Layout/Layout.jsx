@@ -37,9 +37,7 @@ const Navigation = ({ userRole }) => {
             <li>
               <Link to="/accepted-requests">Accepted Requests</Link>
             </li>
-            <li>
-              <Link to="/view-campaigns">View Campaigns</Link>
-            </li>
+            
           </>
         )}
         {(userRole === "hospital" || userRole === "organization") && (
@@ -56,11 +54,7 @@ const Navigation = ({ userRole }) => {
             <li>
               <Link to="/accepted-requests">Accepted Requests</Link>
             </li>
-            {userRole === "organization" && (
-              <li>
-                <Link to="/create-campaign">Create Campaign</Link>
-              </li>
-            )}
+            
           </>
         )}
       </ul>
