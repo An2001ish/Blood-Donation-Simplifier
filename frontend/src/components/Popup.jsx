@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import api from "../services/API.js";
 import "../styles/Popup.css";
 import PropTypes from "prop-types";
+import { showToast } from "../utils/toast";
+import { validateName } from "../utils/validation";
 
 const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
   const [date, setDate] = useState("");
@@ -9,6 +11,7 @@ const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
   const [organization, setOrganization] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [maxDate, setMaxDate] = useState("");
+  const [nameError, setNameError] = useState("");
 
   useEffect(() => {
     // Set the maxDate to today's date in the format YYYY-MM-DD
@@ -17,20 +20,51 @@ const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
     console.log("Current userEmail and bloodGroup in popup:", userEmail, userbloodGroup);
   }, []);
 
+  const handleNameChange = (value) => {
+    setOrganization(value);
+    // Clear error when user starts typing
+    setNameError("");
+  };
+
+  const validateInput = () => {
+    const nameValidation = validateName(organization);
+    if (!nameValidation.isValid) {
+      setNameError(nameValidation.message);
+      showToast.error(nameValidation.message);
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate name first
+    if (!validateInput()) {
+      return;
+    }
+    
+    // Validate quantity
+    const quantityNum = parseFloat(quantity);
+    if (quantityNum > 350) {
+      showToast.warning("Quantity surpasses safe blood donation amount (maximum 350 ml)");
+      return;
+    }
+
     try {
       const response = await api.post("/inventory/create-inventory", {
         email: userEmail,
         date,
-        bloodGroup,
-        quantity,
-        organization,
+        bloodGroup: userRole === "donor" ? userbloodGroup : bloodGroup,
+        quantity: quantityNum,
+        organization: organization.trim(), // Trim any extra spaces
       });
       console.log("Submitted data:", response.data);
+      showToast.success("Donation record added successfully");
       onClose();
     } catch (error) {
       console.error("Error submitting data:", error);
+      showToast.error("Failed to add donation record");
     }
   };
 
@@ -90,7 +124,15 @@ const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
               type="number"
               id="quantity"
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 350)) {
+                  setQuantity(value);
+                }
+              }}
+              min="0"
+              max="350"
+              step="1"
               required
             />
           </div>
@@ -102,8 +144,11 @@ const PopUp = ({ isOpen, onClose, userEmail, userRole, userbloodGroup }) => {
               type="text"
               id="organization"
               value={organization}
-              onChange={(e) => setOrganization(e.target.value)}
+              onChange={(e) => handleNameChange(e.target.value)}
+              onBlur={() => validateInput()}
+              placeholder={userRole === "donor" ? "Enter organization name" : "Enter donor name"}
               required
+              className={nameError ? "error" : ""}
             />
           </div>
           <div className="button-group">

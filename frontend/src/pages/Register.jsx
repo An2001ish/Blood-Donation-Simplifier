@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/Auth.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { showToast } from "../utils/toast";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -31,17 +32,17 @@ const Register = () => {
       );
 
       if (response.data.success) {
-        alert("Registration successful!");
+        showToast.success("Registration successful!");
         navigate("/login");
       } else {
-        alert("Registration failed. Please try again.");
+        showToast.error("Registration failed. Please try again.");
       }
     } catch (error) {
       console.error(
         "Registration error:",
         error.response?.data || error.message
       );
-      alert("Registration failed. Please try again.");
+      showToast.error("Registration failed. Please try again.");
     }
   };
 

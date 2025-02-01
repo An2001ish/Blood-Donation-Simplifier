@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Layout from "./Layout/Layout";
 import api from "../services/API";
+import { showToast } from "../utils/toast";
 import "../styles/CreateCampaign.css";
 
 const CreateCampaign = () => {
@@ -32,18 +33,22 @@ const CreateCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/campaigns", campaignData);
-      alert("Campaign created successfully!");
-      // Reset form
-      setCampaignData({
-        name: "",
-        startDate: "",
-        endDate: "",
-        location: { lat: 27.7172, lng: 85.3240 },
-      });
+      const response = await api.post("/campaigns", campaignData);
+      if (response.data.success) {
+        showToast.success("Campaign created successfully!");
+        // Reset form
+        setCampaignData({
+          name: "",
+          startDate: "",
+          endDate: "",
+          location: { lat: 27.7172, lng: 85.3240 },
+        });
+      } else {
+        showToast.error("Failed to create campaign");
+      }
     } catch (error) {
       console.error("Error creating campaign:", error);
-      alert("Failed to create campaign");
+      showToast.error("Failed to create campaign");
     }
   };
 

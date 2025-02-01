@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import api from "../services/API"
 import Layout from "./Layout/Layout"
 import { createBloomFilter, filterRequests } from "../utils/BloomFilter"
+import { showToast } from "../utils/toast";
 import "../styles/ViewRequest.css"
 
 const ViewRequest = () => {
@@ -52,7 +53,7 @@ const ViewRequest = () => {
 
   const handleAccept = async (requestId, requestBloodGroup) => {
     if (userRole === "donor" && requestBloodGroup !== userBloodGroup) {
-      alert("As a donor, you can only accept requests matching your blood group.")
+      showToast.warning("As a donor, you can only accept requests matching your blood group.");
       return
     }
 
@@ -137,4 +138,3 @@ const ViewRequest = () => {
 }
 
 export default ViewRequest
-

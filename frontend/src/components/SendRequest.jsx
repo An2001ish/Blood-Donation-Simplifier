@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import api from '../services/API';
 import Layout from './Layout/Layout';
 import "../styles/SendRequest.css";
+import { showToast } from '../utils/toast';
+import { filterRequests, sortByDate } from '../utils/requestFilters';
 
 const SendRequests = () => {
   const [bloodGroup, setBloodGroup] = useState('');
@@ -28,7 +30,12 @@ const SendRequests = () => {
       const requestsResponse = await api.get('/bloodrequest/get-bloodrequest', {
         params: { recId: email }
       });
-      setRequests(requestsResponse.data.bloodrequests);
+      // Filter and sort the requests
+      const filteredRequests = filterRequests(requestsResponse.data.bloodrequests, {
+        recId: email
+      });
+      const sortedRequests = sortByDate(filteredRequests);
+      setRequests(sortedRequests);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError('Failed to fetch data');
@@ -39,15 +46,23 @@ const SendRequests = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate quantity
+    const quantityNum = parseFloat(quantity);
+    if (quantityNum > 350) {
+      showToast.warning("Quantity surpasses safe blood donation amount (maximum 350 ml)");
+      return;
+    }
+    
     try {
-      await api.post('/bloodrequest/create-bloodrequest', { bloodGroup, quantity, status, recId: userEmail });
+      await api.post('/bloodrequest/create-bloodrequest', { bloodGroup, quantity: quantityNum, status, recId: userEmail });
       setBloodGroup('');
       setQuantity('');
       fetchData(); // Refresh the list after sending a new request
-      
+      showToast.success("Blood request created successfully");
     } catch (error) {
       console.error('Error sending request:', error);
-      setError('Failed to send request');
+      showToast.error('Failed to send request');
     }
   };
 
@@ -65,7 +80,7 @@ const SendRequests = () => {
             onChange={(e) => setBloodGroup(e.target.value)} 
             required
           >
-            <option value="">Select Blood Type</option>
+            <option value="">Select Blood Group</option>
             <option value="A+">A+</option>
             <option value="A-">A-</option>
             <option value="B+">B+</option>
@@ -76,12 +91,20 @@ const SendRequests = () => {
             <option value="O-">O-</option>
           </select>
           <input
-            className="form-input"
             type="number"
+            className="form-input"
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 350)) {
+                setQuantity(value);
+              }
+            }}
             placeholder="Quantity (ml)"
             required
+            min="0"
+            max="350"
+            step="1"
           />
           <button type="submit" className="submit-btn">Send Request</button>
         </form>
@@ -117,4 +140,3 @@ const SendRequests = () => {
 };
 
 export default SendRequests;
-

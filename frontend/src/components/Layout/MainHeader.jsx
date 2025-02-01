@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import "../../styles/MainHeader.css";
 import { useEffect, useState } from "react";
 import api from '../../services/API';
+import { showToast } from "../../utils/toast";
 
 const MainHeader = () => {
 
@@ -21,7 +22,7 @@ const fetchData = async () =>{
 
 const handleLogout=()=>{
   localStorage.clear();
-  alert("Logged Out Successfully!");
+  showToast.success("Logged Out Successfully!");
   navigate("/login");
 
 }

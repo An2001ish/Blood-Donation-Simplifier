@@ -20,6 +20,8 @@
     "react-leaflet": "^5.0.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^7.0.1",
+    "react-toastify": "^11.0.3",
+    "recharts": "^2.15.1",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "socketio": "^1.0.0"

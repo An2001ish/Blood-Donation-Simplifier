@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from "axios";
 import '../styles/Auth.css';
 import { useNavigate } from 'react-router-dom';
+import { showToast } from "../utils/toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Login = () => {
       });
 
       if (response.data.success) {
-        alert('Login successful!');
+        showToast.success('Login successful!');
         localStorage.setItem('token', response.data.token);
         if (role === "admin") {
           navigate('/user-records');
@@ -28,11 +29,10 @@ const Login = () => {
           navigate("/");
         }
       } else {
-        alert('Invalid login credentials!');
+        showToast.error('Invalid login credentials!');
       }
     } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      alert('Invalid login credentials!');
+      showToast.error('Invalid login credentials!');
     }
   };
 
@@ -87,4 +87,3 @@ const Login = () => {
 };
 
 export default Login;
-
