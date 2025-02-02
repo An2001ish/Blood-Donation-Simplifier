@@ -68,13 +68,51 @@ const DonationStatistics = () => {
 
   const formatMonthlyTrends = () => {
     return statistics.monthlyTrends.map(trend => ({
-      date: `${trend._id.year}-${String(trend._id.month).padStart(2, '0')}`,
-      donations: trend.totalDonations,
-      quantity: trend.totalQuantity
+      date: trend.monthYear || `${trend._id.year}-${String(trend._id.month).padStart(2, '0')}`,
+      donations: trend.totalDonations || 0,
+      quantity: trend.totalQuantity || 0
     }));
   };
 
-  if (isLoading) return <div className="loading">Loading...</div>;
+  if (isLoading) return (
+    <Layout>
+      <div className="loading">Loading statistics...</div>
+    </Layout>
+  );
+
+  if (!statistics.bloodGroupStats.length && !statistics.monthlyTrends.length && !statistics.organizationStats.length) {
+    return (
+      <Layout>
+        <div className="donation-statistics">
+          <h2>Donation Statistics</h2>
+          <div className="date-range-selector">
+            <div className="filter-group">
+              <label>Date Range:</label>
+              <div className="date-inputs">
+                <input
+                  type="date"
+                  value={dateRange.startDate}
+                  max={dateRange.endDate}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, startDate: e.target.value }))}
+                />
+                <span>to</span>
+                <input
+                  type="date"
+                  value={dateRange.endDate}
+                  min={dateRange.startDate}
+                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => setDateRange(prev => ({ ...prev, endDate: e.target.value }))}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="no-data-message">
+            No donation data available for the selected date range
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -158,7 +196,7 @@ const DonationStatistics = () => {
           </div>
 
           {/* Organization Statistics */}
-          <div className="chart-container">
+          {/* <div className="chart-container">
             <h3>Top Organizations</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={statistics.organizationStats}>
@@ -171,7 +209,7 @@ const DonationStatistics = () => {
                 <Bar dataKey="totalQuantity" name="Total Quantity (ml)" fill="#82ca9d" />
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>

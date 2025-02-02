@@ -1,16 +1,7 @@
 const mongoose = require("mongoose");
 const inventorySchema = new mongoose.Schema(
   {
-    // inventoryType: {
-    //   type: String,
-    //   required: [true, "inventory type require"],
-    //   enum: ["in", "out"],
-    // },
-
-
-    // email: {
-    //   type: mongoose.Schema.ObjectId,
-    //   required: [true],
+   
     // },
     date: {
       type: Date,
@@ -29,23 +20,10 @@ const inventorySchema = new mongoose.Schema(
       type: String,
       required: [true, "Organisation/Hospital name is required"],
     },
-    // organisation: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "users",
-    //   required: [true, "organisation is require"],
-    // },
-    // hospital: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "users",
-    //   required: function () {
-    //     return this.inventoryType === "out";
-    //   },
-    // },
+    
     recId: {
       
-      // required: function () {
-      //   return this.inventoryType === "in";
-      // },
+  
     },
   },
   { timestamps: true }

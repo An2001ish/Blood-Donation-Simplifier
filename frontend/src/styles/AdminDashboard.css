@@ -279,12 +279,22 @@
   font-weight: 600;
 }
 
+.no-data-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem 0;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
 /* Loading and Error States */
 .loading {
   text-align: center;
-  padding: 40px;
-  color: #47663B;
-  font-size: 1.2rem;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #6c757d;
 }
 
 .error-message {
