@@ -48,6 +48,14 @@ const registerController = async (req, res) => {
         });
       }
 
+      // Check if user is suspended
+      if (user.status === "suspended") {
+        return res.status(403).send({
+          success: false,
+          message: "Your account has been suspended. Please contact the administrator.",
+        });
+      }
+
       //check role
     if (user.role !== req.body.role) {
       console.log("bad info")
@@ -95,15 +103,7 @@ const currentUserController = async (req, res) => {
   try {
     console.log("Fetching current user for :", req.user.name);
     const current_user = req.user;
-    // const {userId} = req.userId 
-    // const user = await userModel.findById(userId);
-    // if (!user) {
-    //   return res.status(404).send({
-    //     success: false,
-    //     message: "User not found",
-    //   });
-    // }
-    // console.log("Found user:", req.user);
+    
     return res.status(200).send({
       success: true,
       message: "User Fetched Successfully",

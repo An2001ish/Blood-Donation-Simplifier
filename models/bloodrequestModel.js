@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bloodrequestSchema = new mongoose.Schema(
   {
-    
     bloodGroup: {
       type: String,
       required: [true, "blood group is require"],
@@ -11,14 +10,25 @@ const bloodrequestSchema = new mongoose.Schema(
       type: Number,
       required: [true, "blood quanity is require"],
     },
-    status:{
-      type:String
+    status: {
+      type: String,
+      default: "Pending"
     },
     recId: {
-      
+      type: String,
+      required: true
     },
-    acceptId:{
-      type:String
+    recUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: true
+    },
+    acceptId: {
+      type: String
+    },
+    acceptUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users'
     }
   },
   { timestamps: true }

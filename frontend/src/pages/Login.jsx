@@ -29,10 +29,12 @@ const Login = () => {
           navigate("/");
         }
       } else {
-        showToast.error('Invalid login credentials!');
+        showToast.error(response.data.message || 'Invalid login credentials!');
       }
     } catch (error) {
-      showToast.error('Invalid login credentials!');
+      // Show the specific error message from the backend if available
+      const errorMessage = error.response?.data?.message || 'Invalid login credentials!';
+      showToast.error(errorMessage);
     }
   };
 

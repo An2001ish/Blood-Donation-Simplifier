@@ -1,25 +1,31 @@
 const inventoryModel = require("../models/inventoryModel");
 const userModel = require("../models/userModel");
 const bloodrequestModel = require("../models/bloodrequestModel");
+
 // CREATE INVENTORY
 const createbloodrequestController = async (req, res) => {
   console.log("create request: "+JSON.stringify(req.body))
   
   try {
-      const { recId } = req.body;
+    const { recId } = req.body;
     const email = recId;
     //validation
     const user = await userModel.findOne({ email });
     if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
     }
     
     const bloodrequest = new bloodrequestModel(req.body);
-    bloodrequest.recId = user.email; 
+    bloodrequest.recId = user.email;
+    bloodrequest.recUserId = user._id;
     console.log("saved inventory: "+bloodrequest)
     await bloodrequest.save();
     return res.status(201).send({
       success: true,
-      message: "New Blod request Added",
+      message: "New Blood request Added",
     });
   } catch (error) {
     console.log(error);
@@ -34,82 +40,98 @@ const createbloodrequestController = async (req, res) => {
 const getbloodrequestController = async (req, res) => {
   try {
     console.log("Get blood request: " + JSON.stringify(req.query));
-
     let query = {};
-
-    
 
     if (req.query.recId) {
       query.recId = req.query.recId;
-      
     }
 
     if (req.query.status) {
       query.status = req.query.status;
     }
 
-    if(req.query.acceptId){     
-        query.acceptId = req.query.acceptId;
+    if(req.query.acceptId) {
+      query.acceptId = req.query.acceptId;
     }
-    
 
-    const bloodrequests = await bloodrequestModel
-      .find(query)
-      .sort({ createdAt: -1 });
+    const bloodrequests = await bloodrequestModel.find(query);
 
-    console.log("Found requests:", bloodrequests);
+    // Get user IDs for both receiver and acceptor
+    const populatedRequests = await Promise.all(bloodrequests.map(async (request) => {
+      const receiver = await userModel.findOne({ email: request.recId });
+      const acceptor = request.acceptId ? await userModel.findOne({ email: request.acceptId }) : null;
+      
+      return {
+        ...request.toObject(),
+        recUserId: receiver?._id,
+        acceptUserId: acceptor?._id
+      };
+    }));
 
     return res.status(200).send({
       success: true,
-      message: "Blood request records fetched successfully",
-      bloodrequests,
+      message: "Get blood request successfully",
+      bloodrequests: populatedRequests,
     });
   } catch (error) {
-    console.error("Error in getbloodrequestController:", error);
+    console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error in Get Blood Request API",
-      error: error.message,
+      message: "Error In Get Blood Request API",
+      error,
     });
   }
 };
 
 const updateRequestStatusController = async (req, res) => {
   try {
-    console.log("in update"+req.params)
     const { id } = req.params;
     const { status, acceptId } = req.body;
-  
 
-    const updatedRequest = await bloodrequestModel.findByIdAndUpdate(
-      id,
-      { status, acceptId },
-      { new: true }
-    );
+    // Find the acceptor user
+    const acceptor = await userModel.findOne({ email: acceptId });
+    if (!acceptor && status === "Accepted") {
+      return res.status(404).send({
+        success: false,
+        message: "Acceptor not found",
+      });
+    }
 
-    if (!updatedRequest) {
+    // Find and update the request
+    const request = await bloodrequestModel.findById(id);
+    if (!request) {
       return res.status(404).send({
         success: false,
         message: "Blood request not found",
       });
     }
 
+    // Update only the status and acceptor fields, preserving other fields
+    const updatedRequest = await bloodrequestModel.findByIdAndUpdate(
+      id,
+      {
+        status,
+        ...(status === "Accepted" && {
+          acceptId: acceptor.email,
+          acceptUserId: acceptor._id
+        })
+      },
+      { new: true, runValidators: true }
+    );
+
     return res.status(200).send({
       success: true,
-      message: "Blood request status updated successfully",
-      bloodrequest: updatedRequest,
+      message: "Blood Request Updated",
+      data: updatedRequest
     });
   } catch (error) {
-    console.error("Error in updateRequestStatusController:", error);
+    console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error in Update Blood Request Status API",
-      error: error.message,
+      message: "Error In Update Blood Request API",
+      error,
     });
   }
 };
 
-
-  module.exports = { createbloodrequestController, getbloodrequestController, updateRequestStatusController };
-//   , getInventoryController
-
+module.exports = { createbloodrequestController, getbloodrequestController, updateRequestStatusController };

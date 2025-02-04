@@ -124,9 +124,15 @@ const getDonationStatisticsController = async (req, res) => {
     let dateQuery = {};
 
     if (startDate && endDate) {
+      // Adjust dates to handle timezone differences
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+
       dateQuery.createdAt = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: start,
+        $lte: end
       };
     }
 
@@ -143,7 +149,7 @@ const getDonationStatisticsController = async (req, res) => {
       { $sort: { totalQuantity: -1 } }
     ]);
 
-    // Get monthly donation trends
+    // Get monthly donation trends with proper date formatting
     const monthlyTrends = await inventoryModel.aggregate([
       { $match: dateQuery },
       {
@@ -156,10 +162,30 @@ const getDonationStatisticsController = async (req, res) => {
           totalDonations: { $sum: 1 }
         }
       },
+      {
+        $project: {
+          _id: 1,
+          totalQuantity: 1,
+          totalDonations: 1,
+          monthYear: {
+            $concat: [
+              { $toString: "$_id.year" },
+              "-",
+              {
+                $cond: {
+                  if: { $lt: ["$_id.month", 10] },
+                  then: { $concat: ["0", { $toString: "$_id.month" }] },
+                  else: { $toString: "$_id.month" }
+                }
+              }
+            ]
+          }
+        }
+      },
       { $sort: { "_id.year": 1, "_id.month": 1 } }
     ]);
 
-    // Get organization-wise donation statistics
+    // Get organization-wise donation statistics for active organizations
     const organizationStats = await inventoryModel.aggregate([
       { $match: dateQuery },
       {
@@ -169,7 +195,8 @@ const getDonationStatisticsController = async (req, res) => {
           totalDonations: { $sum: 1 }
         }
       },
-      { $sort: { totalQuantity: -1 } }
+      { $sort: { totalQuantity: -1 } },
+      { $limit: 10 } // Limit to top 10 organizations for better visualization
     ]);
 
     return res.status(200).send({
